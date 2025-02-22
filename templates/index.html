@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dự đoán giá vàng</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Dự đoán giá vàng</h1>
+    <form action="/predict" method="post">
+        <label for="feature1">Feature 1:</label>
+        <input type="number" name="feature1" required><br>
+        
+        <label for="feature2">Feature 2:</label>
+        <input type="number" name="feature2" required><br>
+
+        <label for="feature3">Feature 3:</label>
+        <input type="number" name="feature3" required><br>
+
+        <label for="feature4">Feature 4:</label>
+        <input type="number" name="feature4" required><br>
+
+        <label for="feature5">Feature 5:</label>
+        <input type="number" name="feature5" required><br>
+
+        <label for="feature6">Feature 6:</label>
+        <input type="number" name="feature6" required><br>
+
+        <label for="feature7">Feature 7:</label>
+        <input type="number" name="feature7" required><br>
+
+        <label for="feature8">Feature 8:</label>
+        <input type="number" name="feature8" required><br>
+
+        <button type="submit">Dự đoán</button>
+    </form>
+
+    {% if prediction %}
+        <h2>Kết quả dự đoán: {{ prediction }}</h2>
+    {% elif error %}
+        <h2 style="color: red;">Lỗi: {{ error }}</h2>
+    {% endif %}
+</body>
+</html>
