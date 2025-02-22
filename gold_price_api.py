@@ -14,7 +14,7 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        # Kiểm tra nếu request từ form HTML
+        # Nếu request từ form HTML
         if request.form:
             features = [
                 float(request.form["feature1"]),
@@ -26,17 +26,21 @@ def predict():
                 float(request.form["feature7"]),
                 float(request.form["feature8"])
             ]
-        else:  # Nếu request từ API (JSON)
-            data = request.json
-            features = data["features"]
+            predicted_price = model.predict(np.array(features).reshape(1, -1))[0]
+            return render_template("index.html", predicted_price=predicted_price)
 
-        features = np.array(features).reshape(1, -1)
+        # Nếu request từ API (JSON)
+        data = request.get_json()
+        if not data or "features" not in data:
+            return jsonify({"error": "Invalid input format. Expecting JSON with key 'features'"}), 400
+        
+        features = np.array(data["features"]).reshape(1, -1)
         predicted_price = model.predict(features)[0]
 
-        return render_template("index.html", predicted_price=predicted_price)
+        return jsonify({"predicted_price": predicted_price})
 
     except Exception as e:
-        return render_template("index.html", error=str(e))
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
