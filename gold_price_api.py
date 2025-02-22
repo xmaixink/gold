@@ -14,20 +14,27 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        data = request.form
-        features = [
-            float(data["feature1"]),
-            float(data["feature2"]),
-            float(data["feature3"]),
-            float(data["feature4"]),
-            float(data["feature5"]),
-            float(data["feature6"]),
-            float(data["feature7"]),
-            float(data["feature8"]),
-        ]
+        # Kiểm tra nếu request từ form HTML
+        if request.form:
+            features = [
+                float(request.form["feature1"]),
+                float(request.form["feature2"]),
+                float(request.form["feature3"]),
+                float(request.form["feature4"]),
+                float(request.form["feature5"]),
+                float(request.form["feature6"]),
+                float(request.form["feature7"]),
+                float(request.form["feature8"])
+            ]
+        else:  # Nếu request từ API (JSON)
+            data = request.json
+            features = data["features"]
+
         features = np.array(features).reshape(1, -1)
         predicted_price = model.predict(features)[0]
-        return render_template("index.html", prediction=predicted_price)
+
+        return render_template("index.html", predicted_price=predicted_price)
+
     except Exception as e:
         return render_template("index.html", error=str(e))
 

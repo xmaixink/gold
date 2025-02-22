@@ -36,10 +36,13 @@
         <button type="submit">Dự đoán</button>
     </form>
 
-    {% if prediction %}
-        <h2>Kết quả dự đoán: {{ prediction }}</h2>
-    {% elif error %}
-        <h2 style="color: red;">Lỗi: {{ error }}</h2>
-    {% endif %}
+    {% if predicted_price %}
+    <h2>Giá vàng dự đoán: {{ predicted_price }}</h2>
+{% endif %}
+
+{% if error %}
+    <h2 style="color: red;">Lỗi: {{ error }}</h2>
+{% endif %}
+
 </body>
 </html>
